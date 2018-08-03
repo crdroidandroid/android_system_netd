@@ -236,6 +236,7 @@ int TetherController::startTethering(bool usingLegacyDnsProxy, int num_addrs, ch
             "/system/bin/dnsmasq",
             "--keep-in-foreground",
             "--no-resolv",
+            "--dhcp-ignore-names",
             "--no-poll",
             "--dhcp-authoritative",
             // TODO: pipe through metered status from ConnService
