@@ -234,6 +234,7 @@ int TetherController::startTethering(int num_addrs, char **dhcp_ranges) {
             "/system/bin/dnsmasq",
             "--keep-in-foreground",
             "--no-resolv",
+            "--dhcp-ignore-names",
             "--no-poll",
             "--dhcp-authoritative",
             // TODO: pipe through metered status from ConnService
