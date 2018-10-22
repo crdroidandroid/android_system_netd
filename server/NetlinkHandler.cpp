@@ -113,7 +113,16 @@ void NetlinkHandler::onEvent(NetlinkEvent *evt) {
             notifyInterfaceRemoved(iface);
         } else if (action == NetlinkEvent::Action::kChange) {
             evt->dump();
-            notifyInterfaceChanged("nana", true);
+            const char *alertName = evt->findParam("ALERT_NAME");
+            const char *iface = evt->findParam("INTERFACE");
+            if (alertName != NULL && iface != NULL) {
+                ALOGI("Alertname : %s iface (%s)", alertName, iface);
+                if (!strcmp(alertName, "quotaReachedAlert") && iface) {
+                    notifyQuotaLimitReached(alertName, iface);
+                }
+            } else {
+                notifyInterfaceChanged("nana", true);
+            }
         } else if (action == NetlinkEvent::Action::kLinkUp) {
             notifyInterfaceLinkChanged(iface, true);
         } else if (action == NetlinkEvent::Action::kLinkDown) {
