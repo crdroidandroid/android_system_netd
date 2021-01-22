@@ -1190,6 +1190,15 @@ binder::Status NetdNativeService::firewallSetUidRule(int32_t childChain, int32_t
     return statusFromErrcode(res);
 }
 
+binder::Status NetdNativeService::firewallSetMACAddressRule(const std::string& macAddr,
+                                                           int32_t firewallRule) {
+    NETD_LOCKING_RPC(gCtls->firewallCtrl.lock, PERM_NETWORK_STACK, PERM_MAINLINE_NETWORK_STACK);
+    auto rule = static_cast<FirewallRule>(firewallRule);
+
+    int res = gCtls->firewallCtrl.setMACAddressRule(macAddr.c_str(), rule);
+    return statusFromErrcode(res);
+}
+
 binder::Status NetdNativeService::firewallEnableChildChain(int32_t childChain, bool enable) {
     NETD_LOCKING_RPC(gCtls->firewallCtrl.lock, PERM_NETWORK_STACK, PERM_MAINLINE_NETWORK_STACK);
     auto chain = static_cast<ChildChain>(childChain);

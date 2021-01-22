@@ -818,6 +818,16 @@ int NdcDispatcher::FirewallCmd::runCommand(NdcClient* cli, int argc, char** argv
         return sendGenericOkFail(cli, res);
     }
 
+    if (!strcmp(argv[1], "set_mac_rule")) {
+        if (argc != 4) {
+            cli->sendMsg(ResponseCode::CommandSyntaxError,
+                         "Usage: firewall set_mac_rule <aa:bb:cc:dd:ee:ff> <allow|deny>", false);
+            return 0;
+        }
+        int res = !mNetd->firewallSetMACAddressRule(argv[2], parseRule(argv[3])).isOk();
+        return sendGenericOkFail(cli, res);
+    }
+
     if (!strcmp(argv[1], "enable_chain")) {
         if (argc != 3) {
             cli->sendMsg(ResponseCode::CommandSyntaxError,

@@ -45,6 +45,8 @@ class NetdNativeService : public BinderService<NetdNativeService>, public BnNetd
                                             int32_t firewallRule) override;
     binder::Status firewallSetUidRule(int32_t childChain, int32_t uid,
                                       int32_t firewallRule) override;
+    binder::Status firewallSetMACAddressRule(const std::string& macAddr,
+                                            int32_t firewallRule) override;
     binder::Status firewallEnableChildChain(int32_t childChain, bool enable) override;
     binder::Status firewallAddUidInterfaceRules(const std::string& ifName,
                                                 const std::vector<int32_t>& uids) override;

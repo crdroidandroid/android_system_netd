@@ -74,6 +74,25 @@ bool isIfaceName(const std::string& name) {
     return true;
 }
 
+/*
+ * Check an MAC address for plausibility. This should e.g. help against
+ * directory traversal.
+ */
+bool isMACAddress(const std::string& mac) {
+    size_t i;
+    if ((mac.empty()) || (mac.size() != 17 /* strlen("aa:bb:cc:dd:ee:ff") == 17 */)) {
+        return false;
+    }
+
+    for (i = 0; i < mac.size(); i+=3) {
+        if (!isxdigit(mac[i]) || !isxdigit(mac[i+1]) || (mac[i+2] != ':' && mac[i+2] != 0)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 int parsePrefix(const char *prefix, uint8_t *family, void *address, int size, uint8_t *prefixlen) {
     if (!prefix || !family || !address || !prefixlen) {
         return -EFAULT;

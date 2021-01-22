@@ -69,6 +69,8 @@ public:
     int setInterfaceRule(const char*, FirewallRule);
     /* Match traffic owned by given UID. This is specific to a particular chain. */
     int setUidRule(ChildChain, int, FirewallRule);
+    /* Match traffic from the given MAC address */
+    int setMACAddressRule(const char*, FirewallRule);
 
     int enableChildChains(ChildChain, bool);
 
@@ -108,6 +110,7 @@ private:
   FirewallType mFirewallType;
   bool mUseBpfOwnerMatch;
   std::set<std::string> mIfaceRules;
+  std::set<std::string> mMACAddrRules;
   int attachChain(const char*, const char*);
   int detachChain(const char*, const char*);
   int createChain(const char*, FirewallType);
